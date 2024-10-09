@@ -1,80 +1,148 @@
-# Laporan Proyek Machine Learning - Nama Anda
+# Laporan Proyek Machine Learning - Halim Sajidi
 
 ## Project Overview
 
-Pada bagian ini, Kamu perlu menuliskan latar belakang yang relevan dengan proyek yang diangkat.
+Recommender systems telah menjadi bagian integral dari berbagai platform digital, seperti YouTube, Netflix, dan Amazon. Sistem ini bertujuan untuk memberikan saran produk atau konten yang relevan kepada pengguna berdasarkan preferensi mereka, yang dapat meningkatkan keterlibatan pengguna dan meningkatkan pendapatan platform. Dalam proyek ini, saya akan menggunakan dataset Book-Crossing yang mencakup data pengguna, buku, dan rating, untuk mengembangkan sistem rekomendasi buku.
 
 **Rubrik/Kriteria Tambahan (Opsional)**:
-- Jelaskan mengapa proyek ini penting untuk diselesaikan.
-- Menyertakan hasil riset terkait atau referensi. Referensi yang diberikan harus berasal dari sumber yang kredibel dan author yang jelas.
+**Mengapa proyek ini penting?** Dalam era informasi yang melimpah, pengguna sering kali kesulitan menemukan konten yang relevan tanpa bimbingan. Sistem rekomendasi yang baik dapat memecahkan masalah ini dengan menyaring data yang tidak relevan dan menyarankan item yang sesuai dengan preferensi individu, sehingga memberikan pengalaman pengguna yang lebih personal (Ricci _et al._ 2021).
   
-  Format Referensi: [Judul Referensi](https://scholar.google.com/) 
+  Format Referensi: [Recommender Systems: Techniques, Applications, and Challenges](https://scholar.google.com/scholar?hl=en&as_sdt=0%2C5&q=Recommender+Systems%3A+Techniques%2C+Applications%2C+and+Challenges&btnG=) 
 
 ## Business Understanding
-
-Pada bagian ini, Anda perlu menjelaskan proses klarifikasi masalah.
-
-Bagian laporan ini mencakup:
-
 ### Problem Statements
-
-Menjelaskan pernyataan masalah:
-- Pernyataan Masalah 1
-- Pernyataan Masalah 2
-- Pernyataan Masalah n
+- Pernyataan Masalah 1: Bagaimana cara merekomendasikan buku kepada pengguna berdasarkan preferensi yang ada dalam data rating?
+- Pernyataan Masalah 2: Bagaimana meningkatkan akurasi rekomendasi agar pengguna mendapatkan buku yang paling relevan dengan minat mereka?
 
 ### Goals
-
-Menjelaskan tujuan proyek yang menjawab pernyataan masalah:
-- Jawaban pernyataan masalah 1
-- Jawaban pernyataan masalah 2
-- Jawaban pernyataan masalah n
-
-Semua poin di atas harus diuraikan dengan jelas. Anda bebas menuliskan berapa pernyataan masalah dan juga goals yang diinginkan.
+- Tujuan 1: Mengembangkan sistem rekomendasi buku berbasis data rating pengguna.
+- Tujuan 2: Mengoptimalkan model agar dapat memberikan rekomendasi dengan tingkat akurasi yang lebih tinggi.
 
 **Rubrik/Kriteria Tambahan (Opsional)**:
-- Menambahkan bagian “Solution Approach” yang menguraikan cara untuk meraih goals. Bagian ini dibuat dengan ketentuan sebagai berikut: 
-
-    ### Solution statements
-    - Mengajukan 2 atau lebih solution approach (algoritma atau pendekatan sistem rekomendasi).
+### Solution statements
+Untuk mencapai tujuan, saya akan menggunakan dua pendekatan berikut:
+- **Collaborative Filtering:** Menggunakan informasi tentang rating pengguna terhadap buku untuk merekomendasikan buku kepada pengguna yang memiliki preferensi serupa.
+- **Content-Based Filtering:** Menggunakan fitur konten buku seperti publisher untuk merekomendasikan buku berdasarkan kesamaan konten dengan buku yang sudah diberi rating oleh pengguna.
 
 ## Data Understanding
-Paragraf awal bagian ini menjelaskan informasi mengenai jumlah data, kondisi data, dan informasi mengenai data yang digunakan. Sertakan juga sumber atau tautan untuk mengunduh dataset. Contoh: [UCI Machine Learning Repository](https://archive.ics.uci.edu/ml/datasets/Restaurant+%26+consumer+data).
+Dataset pada proyek ini adalah dataset books recommendation dataset yang dapat di akses melalui situs kaggle. [Kaggle dataset](https://www.kaggle.com/datasets/arashnic/book-recommendation-dataset/data).
 
-Selanjutnya, uraikanlah seluruh variabel atau fitur pada data. Sebagai contoh:  
+Variabel-variabel pada books recommendation dataset adalah sebagai berikut:
+- Books: berisi data tentang buku, termasuk ISBN, Book-Title, Book-Author, Year-Of-Publication, dan Publisher. Data URL gambar buku juga disertakan dalam tiga ukuran (S, M, L). Dengan banyak data 271360.
+- Ratings: berisi data rating dari pengguna untuk buku-buku tertentu dengan skala 1-10 untuk rating eksplisit dan 0 untuk rating implisit. Dengan banyak data 340556.
+- Users: berisi informasi tentang pengguna seperti User-ID, Location, dan Age. Beberapa kolom memiliki nilai NULL. Dengan banyak data 278858.
 
-Variabel-variabel pada Restaurant UCI dataset adalah sebagai berikut:
-- accepts : merupakan jenis pembayaran yang diterima pada restoran tertentu.
-- cuisine : merupakan jenis masakan yang disajikan pada restoran.
-- dst
+**Contoh variabel:**
+- User-ID: ID anonim pengguna.
+- ISBN: Nomor identifikasi buku.
+- Book-Rating: Rating eksplisit atau implisit yang diberikan oleh pengguna terhadap buku.
 
 **Rubrik/Kriteria Tambahan (Opsional)**:
-- Melakukan beberapa tahapan yang diperlukan untuk memahami data, contohnya teknik visualisasi data beserta insight atau exploratory data analysis.
+
+- Penulis Teratas Berdasarkan Jumlah Buku
+![image](https://github.com/user-attachments/assets/ba403ac0-d668-441d-a9f7-77e591bccf30)
+
+Berdasarkan gambar di atas, terdapat 10 author dengan jumlah buku terbanyak. Walaupun sebenarnya masih belum bisa disimpulkan karena dari label jumlah buku nilai tertingginya di angka 10 ribu, dengan demikian simpulan awalnya adalah masih banyak data duplikat yang nantinya perlu di lakukan perbaikkan.
+
+- Distribusi Peringkat Buku
+![image](https://github.com/user-attachments/assets/0a02048a-2c33-4fe4-8c0e-4396413c12ac)
+
+Dapat dilihat berdasarkan grafik di atas, kebanyakkan user memberikan nilai rendah, banyak sekali user yang memberikan nilai 0 atau 1
+
+- Tabel deskripsi dari dataset users
+
+![image](https://github.com/user-attachments/assets/dec85631-8968-4e3b-9e21-cfdee240856d)
+
+Dapat dilihat kolom Age atau umur memiliki data yang tidak masuk akal, nilai minimum adalah 0 dan maksimumnya adalah 244
 
 ## Data Preparation
-Pada bagian ini Anda menerapkan dan menyebutkan teknik data preparation yang dilakukan. Teknik yang digunakan pada notebook dan laporan harus berurutan.
+Pada tahap Data Preparation, saya menerapkan beberapa langkah penting untuk mempersiapkan data sebelum dimodelkan, yaitu:
+- Mengatasi Missing Value: Saya memeriksa data untuk melihat apakah terdapat nilai kosong. Jika ditemukan, data yang memiliki nilai kosong tersebut dihapus.
+- Membagi Data Menjadi Training dan Validation Set: Data dibagi menjadi dua bagian, yaitu data training untuk melatih model dan data validasi untuk mengevaluasi performa model.
+- Menggabungkan Variabel: Variabel-variabel yang memiliki hubungan dengan ID yang bersifat unik digabungkan untuk mendapatkan informasi yang lebih lengkap.
+- Mengurutkan Data: Data diurutkan berdasarkan ISBN secara ascending untuk mempermudah proses analisis dan visualisasi.
+ -Mengatasi Duplikasi Data: Data yang memiliki nilai atau isi yang sama diidentifikasi dan dihapus untuk memastikan tidak ada pengulangan yang bisa memengaruhi hasil analisis.
+- Konversi Data Menjadi List: Beberapa data diubah menjadi format list agar lebih mudah dikelola pada proses selanjutnya.
+- Membuat Dictionary: Saya membuat dictionary dari data yang ada untuk memudahkan pemetaan dan pencarian informasi.
+- Menggunakan TfidfVectorizer: Teknik TfidfVectorizer digunakan untuk melakukan pembobotan teks, yang membantu dalam mengukur seberapa penting suatu kata dalam dokumen.
+- Melakukan Preprocessing: Langkah preprocessing dilakukan untuk mengatasi masalah yang dapat mengganggu hasil analisis data, seperti penghapusan karakter khusus dan normalisasi teks.
+- Mapping Data: Data dipetakan untuk menyesuaikan antara variabel dan ID unik, sehingga informasi yang relevan dapat lebih mudah diakses dalam proses selanjutnya.
 
 **Rubrik/Kriteria Tambahan (Opsional)**: 
-- Menjelaskan proses data preparation yang dilakukan
-- Menjelaskan alasan mengapa diperlukan tahapan data preparation tersebut.
+Setiap tahapan dalam Data Preparation memiliki peran penting untuk memastikan bahwa data yang digunakan dalam pemodelan bersih, lengkap, dan siap untuk diolah secara efektif sehingga menghasilkan model yang akurat dan berkinerja baik.
 
 ## Modeling
-Tahapan ini membahas mengenai model sisten rekomendasi yang Anda buat untuk menyelesaikan permasalahan. Sajikan top-N recommendation sebagai output.
+### Algoritma 1: Content-Based Filtering
+Pendekatan ini menggunakan informasi konten buku seperti genre atau penulis untuk memberikan rekomendasi. Model ini cocok untuk pengguna baru yang belum memberikan rating banyak buku.
 
-**Rubrik/Kriteria Tambahan (Opsional)**: 
-- Menyajikan dua solusi rekomendasi dengan algoritma yang berbeda.
-- Menjelaskan kelebihan dan kekurangan dari solusi/pendekatan yang dipilih.
+**Kelebihan:**
+
+Bisa memberikan rekomendasi tanpa data dari pengguna lain.
+
+**Kekurangan:**
+
+Rentan terhadap masalah overspecialization, di mana pengguna hanya disarankan item yang sangat mirip dengan yang sudah dilihat.
+
+**Output dari model ini adalah top-N recommendation berupa daftar buku yang paling relevan untuk setiap pengguna.**
+Berikut adalah outputnya:
+
+![image](https://github.com/user-attachments/assets/18ccc58c-c976-4f17-81a3-f5ee1e5c2d07)
+
+Tabel di atas adalah user yang menyukai buku berjudul aftermath yang berasal dari publisher fireside.
+
+![image](https://github.com/user-attachments/assets/e24acd5e-01ec-4606-b13e-055961e2ee8f)
+
+Berdasarkan hasil rekomendasi di atas, judul buku aftermah merupakan buku yang diterbitkan oleh publisher Fireside. Kemudian dari 5 rekomendasi yang diberikan, 4 dari 5 memiliki kesesuaian publisher
+
+
+### Algoritma 2: Collaborative Filtering
+Collaborative filtering memanfaatkan informasi dari pengguna lain dengan preferensi yang sama untuk memberikan rekomendasi. Saya menggunakan algoritma Singular Value Decomposition (SVD) untuk mendekomposisi matriks rating.
+
+**Kelebihan:**
+
+Mampu memprediksi buku yang relevan meskipun tidak ada informasi konten buku.
+
+**Kekurangan:**
+
+Membutuhkan banyak data rating dari pengguna untuk memberikan rekomendasi yang akurat.
+
+**Output dari model ini adalah top-N recommendation berupa daftar buku yang paling tinggi ratingnya.**
+Berikut adalah outputnya:
+
+![image](https://github.com/user-attachments/assets/ad7f943a-6398-4262-99ca-c19ef43adc49)
+
+hasil di atas adalah rekomendasi untuk user dengan id 105979. Dari output tersebut, kita dapat membandingkan antara books with high ratings from user dan Top 10 books recommendation untuk user.
 
 ## Evaluation
-Pada bagian ini Anda perlu menyebutkan metrik evaluasi yang digunakan. Kemudian, jelaskan hasil proyek berdasarkan metrik evaluasi tersebut.
+### 1. Evaluasi Content Based Filtering
+Precision mengukur seberapa banyak dari semua prediksi positif yang benar-benar positif. Dengan kata lain, ini mengevaluasi ketepatan model dalam memprediksi kelas positif, dengan mengabaikan prediksi negatif yang salah.
 
-Ingatlah, metrik evaluasi yang digunakan harus sesuai dengan konteks data, problem statement, dan solusi yang diinginkan.
+![image](https://github.com/user-attachments/assets/b67f4366-7cb2-482e-a0e6-b8c774cc0f57)
 
-**Rubrik/Kriteria Tambahan (Opsional)**: 
-- Menjelaskan formula metrik dan bagaimana metrik tersebut bekerja.
+- True Positives (TP): Jumlah kasus positif yang diprediksi benar oleh model.
+- False Positives (FP): Jumlah kasus negatif yang diprediksi sebagai positif oleh model (disebut juga sebagai "false alarms").
+
+**Berdasarkan hasil yang didapatkan**
+TP = 4
+
+FP = 1
+
+Precision = 4/5 = 0.8
+
+Artinya, precision model adalah 80%. Dari semua prediksi yang dikatakan positif oleh model, 80% adalah benar-benar positif.
+
+### 2. Evaluasi Collaborative Filtering
+Untuk mengevaluasi performa model, saya menggunakan metrik Root Mean Square Error (RMSE) untuk mengukur seberapa dekat prediksi rating dengan rating sebenarnya. RMSE digunakan karena model sistem rekomendasi biasanya prediksi rating kuantitatif.
+
+![image](https://github.com/user-attachments/assets/40828e65-255c-430f-84de-3fd8efc14fbc)
+
+Di mana:
+- 𝑦𝑖 adalah rating aktual pengguna.
+- y^ i adalah rating yang diprediksi oleh model.
+- n adalah jumlah total observasi.
+
+**hasil dari evaluasi model**
+
+![image](https://github.com/user-attachments/assets/e1c3fe72-6d1c-4c21-b3d4-c159c5064e87)
 
 **---Ini adalah bagian akhir laporan---**
-
-_Catatan:_
-- _Anda dapat menambahkan gambar, kode, atau tabel ke dalam laporan jika diperlukan. Temukan caranya pada contoh dokumen markdown di situs editor [Dillinger](https://dillinger.io/), [Github Guides: Mastering markdown](https://guides.github.com/features/mastering-markdown/), atau sumber lain di internet. Semangat!_
-- Jika terdapat penjelasan yang harus menyertakan code snippet, tuliskan dengan sewajarnya. Tidak perlu menuliskan keseluruhan kode project, cukup bagian yang ingin dijelaskan saja.
