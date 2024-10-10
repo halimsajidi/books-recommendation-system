@@ -123,6 +123,7 @@ Precision mengukur seberapa banyak dari semua prediksi positif yang benar-benar 
 - False Positives (FP): Jumlah kasus negatif yang diprediksi sebagai positif oleh model (disebut juga sebagai "false alarms").
 
 **Berdasarkan hasil yang didapatkan**
+
 TP = 4
 
 FP = 1
