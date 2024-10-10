@@ -143,6 +143,10 @@ Di mana:
 - y^ i adalah rating yang diprediksi oleh model.
 - n adalah jumlah total observasi.
 
+**hasil dari evaluasi model**
+
+![image](https://github.com/user-attachments/assets/e1c3fe72-6d1c-4c21-b3d4-c159c5064e87)
+
 Collaborative Filtering menggunakan informasi dari pengguna lain yang memiliki preferensi serupa untuk memberikan rekomendasi. Dengan menerapkan Singular Value Decomposition (SVD), model ini mampu memberikan prediksi rating yang cukup akurat, meskipun membutuhkan banyak data rating pengguna untuk memberikan hasil yang optimal. Evaluasi menggunakan Root Mean Square Error (RMSE) menunjukkan bahwa model ini mampu mendekati rating sebenarnya, meskipun ada ruang untuk peningkatan lebih lanjut.
 
 ### Kesimpulan 
@@ -154,9 +158,5 @@ Collaborative Filtering menggunakan informasi dari pengguna lain yang memiliki p
 **2. Untuk meningkatkan akurasi rekomendasi agar pengguna mendapatkan buku yang paling relevan dengan minat mereka, beberapa strategi dapat diterapkan:**
 - Hybrid Recommender System: Menggabungkan pendekatan Collaborative Filtering dan Content-Based Filtering dapat meningkatkan akurasi dengan mengatasi kelemahan masing-masing metode. Collaborative Filtering membantu menemukan pola kesamaan antar pengguna, sementara Content-Based Filtering mengatasi masalah cold start (ketika data pengguna sangat sedikit).
 - Penerapan Feedback Loop: Menggunakan feedback dari pengguna secara terus menerus (misalnya melalui fitur like/dislike) dapat meningkatkan relevansi rekomendasi dengan memperbarui preferensi pengguna secara real-time. Walapun belum dilakukan dalam proyek ini, tetapi saran ini bisa digunakan untuk pengembangan kedepannya.
-
-**hasil dari evaluasi model**
-
-![image](https://github.com/user-attachments/assets/e1c3fe72-6d1c-4c21-b3d4-c159c5064e87)
 
 **---Ini adalah bagian akhir laporan---**
