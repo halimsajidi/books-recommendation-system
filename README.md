@@ -57,19 +57,19 @@ Dapat dilihat kolom Age atau umur memiliki data yang tidak masuk akal, nilai min
 
 ## Data Preparation
 Pada tahap Data Preparation, saya menerapkan beberapa langkah penting untuk mempersiapkan data sebelum dimodelkan, yaitu:
-- Mengatasi Missing Value: Saya memeriksa data untuk melihat apakah terdapat nilai kosong. Jika ditemukan, data yang memiliki nilai kosong tersebut dihapus.
-- Membagi Data Menjadi Training dan Validation Set: Data dibagi menjadi dua bagian, yaitu data training untuk melatih model dan data validasi untuk mengevaluasi performa model.
-- Menggabungkan Variabel: Variabel-variabel yang memiliki hubungan dengan ID yang bersifat unik digabungkan untuk mendapatkan informasi yang lebih lengkap.
-- Mengurutkan Data: Data diurutkan berdasarkan ISBN secara ascending untuk mempermudah proses analisis dan visualisasi.
- -Mengatasi Duplikasi Data: Data yang memiliki nilai atau isi yang sama diidentifikasi dan dihapus untuk memastikan tidak ada pengulangan yang bisa memengaruhi hasil analisis.
-- Konversi Data Menjadi List: Beberapa data diubah menjadi format list agar lebih mudah dikelola pada proses selanjutnya.
-- Membuat Dictionary: Saya membuat dictionary dari data yang ada untuk memudahkan pemetaan dan pencarian informasi.
-- Menggunakan TfidfVectorizer: Teknik TfidfVectorizer digunakan untuk melakukan pembobotan teks, yang membantu dalam mengukur seberapa penting suatu kata dalam dokumen.
-- Melakukan Preprocessing: Langkah preprocessing dilakukan untuk mengatasi masalah yang dapat mengganggu hasil analisis data, seperti penghapusan karakter khusus dan normalisasi teks.
-- Mapping Data: Data dipetakan untuk menyesuaikan antara variabel dan ID unik, sehingga informasi yang relevan dapat lebih mudah diakses dalam proses selanjutnya.
+- **Mengatasi Missing Value:** Saya memeriksa data untuk melihat apakah terdapat nilai kosong. Untuk dataset yang saya miliki terdapat nilai NaN di beberapa kolom dan dilakukan drop data, hal ini dilakukan karena jumlah data terbilang banyak sehingga dipilih untuk drop data dibandingkan menggantinya dengan mean atau mode.
+- **Membagi Data Menjadi Training dan Validation Set:** Data dibagi menjadi dua bagian, yaitu data training untuk melatih model dan data validasi untuk mengevaluasi performa model. Pembagian data ini dilakukan pada pengembangan model collaborative filtering. Proporsi pembagiannya sendiri sebesar 80% dan 20% untuk data train dan test. 
+- **Menggabungkan Variabel**: Variabel-variabel yang memiliki hubungan dengan ID yang bersifat unik digabungkan untuk mendapatkan informasi yang lebih lengkap.
+- **Mengurutkan Data:** Data diurutkan berdasarkan ISBN secara ascending untuk mempermudah proses analisis dan visualisasi.
+ -**Mengatasi Duplikasi Data:** Data yang memiliki nilai atau isi yang sama diidentifikasi dan dihapus untuk memastikan tidak ada pengulangan yang bisa memengaruhi hasil analisis.
+- **Konversi Data Menjadi List:** Beberapa data diubah menjadi format list agar lebih mudah dikelola pada proses selanjutnya.
+- **Membuat Dictionary:** Saya membuat dictionary dari data yang ada untuk memudahkan pemetaan dan pencarian informasi.
+- **Menggunakan TfidfVectorizer:** Teknik TfidfVectorizer digunakan untuk melakukan pembobotan teks, yang membantu dalam mengukur seberapa penting suatu kata dalam dokumen.
+- **Melakukan Preprocessing:** Langkah preprocessing dilakukan untuk mengatasi masalah yang dapat mengganggu hasil analisis data, seperti penghapusan karakter khusus dan normalisasi teks.
+- **Mapping Data:** Data dipetakan untuk menyesuaikan antara variabel dan ID unik, sehingga informasi yang relevan dapat lebih mudah diakses dalam proses selanjutnya.
 
 **Rubrik/Kriteria Tambahan (Opsional)**: 
-Setiap tahapan dalam Data Preparation memiliki peran penting untuk memastikan bahwa data yang digunakan dalam pemodelan bersih, lengkap, dan siap untuk diolah secara efektif sehingga menghasilkan model yang akurat dan berkinerja baik.
+Terdapat beberapa concern utama pada tahap data preparation ini. Pada dataset yang digunakan terdapat missing value dari dataset dan missing value ini pun muncul ketika menggabungkan dua dataset berdasarkan ID, sehingga perlu dilakukan drop rows, kenapa dihapus? Karena proporsi missing valuenya sendiri kurang dari 10%. Di samping itu dilakukan pula pengolahan data untuk data-data typo atau tidak sesuai penulisan misalnya pada penulisan nama author, publisher, dan nama buku. Di samping  itu dilakukan pula penghapusan tanda titik (.), koma (,), dan petik (') karena akan menggangu pada saat tokenisasi. Terakhir, hal kecil tapi sangat penting yaitu pergantian nama kolom, contohnya terdapat kolom Book-Title, hal ini cukup ambigu sehingga dilakukan rename menjadi book_title, sehingga pada saat peroses pemrograman tidak terjadi kesalahartian dari sebuah kolom.
 
 ## Modeling
 ### Algoritma 1: Content-Based Filtering
@@ -131,6 +131,8 @@ Precision = 4/5 = 0.8
 
 Artinya, precision model adalah 80%. Dari semua prediksi yang dikatakan positif oleh model, 80% adalah benar-benar positif.
 
+Content-Based Filtering memberikan rekomendasi berdasarkan kesamaan konten buku, seperti penulis atau publisher. Pendekatan ini efektif untuk pengguna baru yang memiliki sedikit data rating, namun rentan terhadap masalah overspecialization. Dari hasil evaluasi, pendekatan ini memiliki precision sebesar 80%, yang menunjukkan ketepatan yang cukup baik dalam merekomendasikan buku sesuai preferensi pengguna.
+
 ### 2. Evaluasi Collaborative Filtering
 Untuk mengevaluasi performa model, saya menggunakan metrik Root Mean Square Error (RMSE) untuk mengukur seberapa dekat prediksi rating dengan rating sebenarnya. RMSE digunakan karena model sistem rekomendasi biasanya prediksi rating kuantitatif.
 
@@ -140,6 +142,18 @@ Di mana:
 - 𝑦𝑖 adalah rating aktual pengguna.
 - y^ i adalah rating yang diprediksi oleh model.
 - n adalah jumlah total observasi.
+
+Collaborative Filtering menggunakan informasi dari pengguna lain yang memiliki preferensi serupa untuk memberikan rekomendasi. Dengan menerapkan Singular Value Decomposition (SVD), model ini mampu memberikan prediksi rating yang cukup akurat, meskipun membutuhkan banyak data rating pengguna untuk memberikan hasil yang optimal. Evaluasi menggunakan Root Mean Square Error (RMSE) menunjukkan bahwa model ini mampu mendekati rating sebenarnya, meskipun ada ruang untuk peningkatan lebih lanjut.
+
+### Kesimpulan 
+**1. Untuk merekomendasikan buku kepada pengguna berdasarkan preferensi yang ada dalam data rating, dua pendekatan utama dapat digunakan:**
+
+- Collaborative Filtering: Pendekatan ini merekomendasikan buku berdasarkan rating yang diberikan oleh pengguna lain yang memiliki preferensi serupa. Algoritma seperti Singular Value Decomposition (SVD) digunakan untuk menganalisis pola rating dari sejumlah besar pengguna dan mendeteksi kemiripan di antara mereka. Hasilnya, pengguna akan mendapatkan rekomendasi buku yang disukai oleh orang lain dengan preferensi yang mirip.
+- Content-Based Filtering: Pendekatan ini fokus pada atribut buku seperti penulis, genre, atau penerbit untuk merekomendasikan buku yang mirip dengan buku-buku yang sebelumnya disukai oleh pengguna. Jika seorang pengguna memberikan rating tinggi pada buku dari penulis atau genre tertentu, sistem akan menyarankan buku lain yang memiliki karakteristik serupa.
+
+**2. Untuk meningkatkan akurasi rekomendasi agar pengguna mendapatkan buku yang paling relevan dengan minat mereka, beberapa strategi dapat diterapkan:**
+- Hybrid Recommender System: Menggabungkan pendekatan Collaborative Filtering dan Content-Based Filtering dapat meningkatkan akurasi dengan mengatasi kelemahan masing-masing metode. Collaborative Filtering membantu menemukan pola kesamaan antar pengguna, sementara Content-Based Filtering mengatasi masalah cold start (ketika data pengguna sangat sedikit).
+- Penerapan Feedback Loop: Menggunakan feedback dari pengguna secara terus menerus (misalnya melalui fitur like/dislike) dapat meningkatkan relevansi rekomendasi dengan memperbarui preferensi pengguna secara real-time. Walapun belum dilakukan dalam proyek ini, tetapi saran ini bisa digunakan untuk pengembangan kedepannya.
 
 **hasil dari evaluasi model**
 
